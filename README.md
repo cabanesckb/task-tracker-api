@@ -1,88 +1,113 @@
 # Task Tracker API
 
 ## Description
-Task Tracker is a REST API built with Django and Django REST Framework. 
-It allows users to register, authenticate using JWT, and manage their 
+Task Tracker is a REST API built with Django and Django REST Framework.
+It allows users to register, authenticate using JWT, and manage their
 own tasks. Each user can only access and modify their own tasks.
 
 ## Tech Stack
-Python, Django, Django Rest Framework, JWT
+- Python
+- Django
+- Django REST Framework
+- PostgreSQL
+- JWT (SimpleJWT)
 
 ## Features
-Register, Login, List Tasks, Update task, and Delete Task
-
+- User registration and JWT authentication
+- Create, read, update, and delete tasks
+- Each user can only access their own tasks
 
 ## Installation
+
 1. Clone the repository
-   git clone https://github.com/your_username/task-tracker-api
+```bash
+git clone https://github.com/cabanesckb/task-tracker-api
+```
 
 2. Create and activate virtual environment
-   python -m venv venv
-   venv\Scripts\activate
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
 3. Install dependencies
-   pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
-4. Configure your database in config/settings.py
+4. Copy `.env.example` to `.env` and fill in your values
+```bash
+copy .env.example .env
+```
 
 5. Run migrations
-   python manage.py makemigrations
-   python manage.py migrate
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
 
 6. Run the server
-   python manage.py runserver
+```bash
+python manage.py runserver
+```
 
 ## Environment Setup
-you need to edit database based on your database setting
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'task_tracker',
-        'USER': 'postgres',
-        'PASSWORD': 'your_postgres_password',
-        'host': 'localhost',
-        'port': '5432',
-    }
-}
+
+Copy `.env.example` to `.env` and fill in your values:
+
+```
+SECRET_KEY=your_django_secret_key
+DB_NAME=task_tracker
+DB_USER=postgres
+DB_PASSWORD=your_postgres_password
+DB_HOST=localhost
+DB_PORT=5432
+```
 
 ## API Endpoints
 
 ### Auth
 | Method | URL | Description |
 |--------|-----|-------------|
-| POST | api/register/ | Register a new user |
-| POST | api/token/ | Login and get access + refresh token |
-| POST | api/token/refresh/ | Get new access token |
+| POST | /api/register/ | Register a new user |
+| POST | /api/token/ | Login and get tokens |
+| POST | /api/token/refresh/ | Refresh access token |
 
 ### Tasks (requires Bearer token)
 | Method | URL | Description |
 |--------|-----|-------------|
-| GET | api/tasks/ | List all your tasks |
-| POST | api/tasks/ | Create a new task |
-| GET | api/tasks/{id}/ | Get a single task |
-| PUT | api/tasks/{id}/ | Update a task |
-| DELETE | api/tasks/{id}/ | Delete a task |
+| GET | /api/tasks/ | List your tasks |
+| POST | /api/tasks/ | Create a new task |
+| GET | /api/tasks/{id}/ | Get a single task |
+| PUT | /api/tasks/{id}/ | Update a task |
+| DELETE | /api/tasks/{id}/ | Delete a task |
 
 ## Usage
 
 ### Register
-POST api/register/
+```json
+POST /api/register/
 {
     "username": "your_username",
     "password": "your_password"
 }
+```
 
 ### Login
-POST api/token/
+```json
+POST /api/token/
 {
     "username": "your_username",
     "password": "your_password"
 }
-→ returns access and refresh token
+```
 
-### Access protected endpoints
-Add this header to every request:
+### Access Protected Endpoints
+```
 Authorization: Bearer your_access_token
+```
 
 ## Running Tests
+```bash
 python manage.py test tasks
+```
