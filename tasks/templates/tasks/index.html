@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Tracker</title>
+</head>
+<body>
+    <h1>Tasks</h1>
+    <a href="{% url 'tasks:add_task' %}">Add New Task</a>
+    <ul>
+        {% for task in latest_task_list %}
+            <li>
+                <a href="{% url 'tasks:update_task' task.id %}">
+                    {{ task.description }} — {{ task.status }}
+                </a>
+                <a href="{% url 'tasks:delete_task' task.id %}">
+                    delete
+                </a>
+            </li>
+        {% empty %}
+            <li>No tasks found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
